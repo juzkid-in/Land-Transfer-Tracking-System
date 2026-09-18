@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+  <div>
+    <h3 class="fw-bold text-dark mb-1"><i class="fa-solid fa-link me-2 text-primary"></i> Blockchain Ledger</h3>
+    <p class="text-muted mb-0">Cryptographically linked sequence of land transfer blocks starting from Block 0 (Genesis Block)</p>
+  </div>
+  <div class="d-flex gap-2">
+    <span class="badge bg-{{ 'success' if validation.is_valid else 'danger' }} fs-6 px-3 py-2">
+      <i class="fa-solid {{ 'fa-circle-check' if validation.is_valid else 'fa-triangle-exclamation' }} me-1"></i>
+      {{ 'CHAIN VALID' if validation.is_valid else 'CHAIN INVALID' }}
+    </span>
+    <a href="{{ url_for('add_transfer') }}" class="btn btn-primary btn-sm fw-semibold">
+      <i class="fa-solid fa-plus me-1"></i> Add Block
+    </a>
+  </div>
+</div>
+
+<div class="blockchain-container">
+  {% for block in chain %}
+    <div class="card mb-3 shadow-sm border-0 {{ 'border-start border-warning border-5' if block.is_genesis else 'border-start border-primary border-5' }} bg-white">
+      <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+        <div>
+          <span class="badge {{ 'bg-warning text-dark' if block.is_genesis else 'bg-primary' }} me-2 fs-6">
+            Block {{ block.index }}
+          </span>
+          <span class="fw-bold text-uppercase tracking-wider {{ 'text-warning' if block.is_genesis else 'text-dark' }}">
+            {{ 'GENESIS BLOCK' if block.is_genesis else 'LAND TRANSFER' }}
+          </span>
+        </div>
+        <div class="text-muted small">
+          <i class="fa-regular fa-clock me-1"></i> <strong>Timestamp:</strong> <span class="font-monospace">{{ block.timestamp }}</span>
+        </div>
+      </div>
+
+      <div class="card-body">
+        {% if block.is_genesis %}
+          <div class="p-3 bg-light rounded border mb-3">
+            <h6 class="fw-bold text-dark mb-1"><i class="fa-solid fa-dna me-2 text-warning"></i> Genesis Block Information</h6>
+            <p class="mb-1 text-secondary font-monospace small">{{ block.data }}</p>
+            <small class="text-muted fst-italic">
+              Note: This is the very first block of the blockchain. Because it has no preceding block, its previous hash is mathematically set to "0".
+            </small>
+          </div>
+        {% else %}
+          <div class="row g-3 mb-3">
+            <div class="col-md-3 col-sm-6">
+              <span class="text-muted small d-block">Land ID:</span>
+              <strong class="text-dark font-monospace">{{ block.data.landId }}</strong>
+            </div>
+            <div class="col-md-3 col-sm-6">
+              <span class="text-muted small d-block">Survey Number:</span>
+              <strong class="text-dark font-monospace">{{ block.data.surveyNumber }}</strong>
+            </div>
+            <div class="col-md-3 col-sm-6">
+              <span class="text-muted small d-block">Location:</span>
+              <strong class="text-dark">{{ block.data.location }}</strong>
+            </div>
+            <div class="col-md-3 col-sm-6">
+              <span class="text-muted small d-block">Transfer Type:</span>
+              <span class="badge bg-secondary">{{ block.data.transferType }}</span>
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+              <span class="text-muted small d-block">Previous Owner (Seller):</span>
+              <strong class="text-danger"><i class="fa-solid fa-user-minus me-1"></i> {{ block.data.previousOwner }}</strong>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <span class="text-muted small d-block">New Owner (Buyer):</span>
+              <strong class="text-success"><i class="fa-solid fa-user-plus me-1"></i> {{ block.data.newOwner }}</strong>
+            </div>
+            <div class="col-md-4 col-sm-6">
+              <span class="text-muted small d-block">Transfer Date:</span>
+              <strong class="text-dark">{{ block.data.transferDate }}</strong>
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Hash Details -->
+        <div class="p-3 bg-light rounded border">
+          <div class="mb-2">
+            <span class="text-muted small d-block fw-bold text-uppercase">Previous Hash:</span>
+            <code class="text-break font-monospace {{ 'text-warning fw-bold' if block.is_genesis else 'text-secondary' }}">{{ block.previous_hash }}</code>
+          </div>
+          <div>
+            <span class="text-muted small d-block fw-bold text-uppercase">Current SHA-256 Hash:</span>
+            <code class="text-break font-monospace text-primary fw-bold">{{ block.hash }}</code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if not loop.last %}
+      <div class="text-center my-2">
+        <div class="d-inline-flex align-items-center justify-content-center p-2 rounded-circle bg-white shadow-sm border text-primary">
+          <i class="fa-solid fa-arrow-down fa-lg"></i>
+        </div>
+        <div class="small text-muted font-monospace">previous_hash = Block {{ block.index }} hash</div>
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>
+{% endblock %}

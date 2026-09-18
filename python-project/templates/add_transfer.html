@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card shadow-sm border-0 bg-white">
+      <div class="card-header bg-primary text-white py-3">
+        <h4 class="fw-bold mb-0"><i class="fa-solid fa-file-circle-plus me-2"></i> Add Land Transfer</h4>
+        <small class="text-white-50">Record an ownership change transaction as a cryptographically linked block</small>
+      </div>
+      <div class="card-body p-4">
+        <form action="{{ url_for('add_transfer') }}" method="POST" id="transferForm">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="landId" class="form-label fw-semibold">Land ID <span class="text-danger">*</span></label>
+              <input type="text" class="form-control font-monospace" id="landId" name="landId" placeholder="e.g. LAND004" required>
+              <div class="form-text">Unique alphanumeric land parcel identifier</div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="surveyNumber" class="form-label fw-semibold">Survey Number <span class="text-danger">*</span></label>
+              <input type="text" class="form-control font-monospace" id="surveyNumber" name="surveyNumber" placeholder="e.g. SURV1004" required>
+              <div class="form-text">Government revenue survey parcel number</div>
+            </div>
+
+            <div class="col-12">
+              <label for="location" class="form-label fw-semibold">Location / Jurisdiction <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="location" name="location" placeholder="e.g. Bengaluru Urban, Shivajinagar" required>
+            </div>
+
+            <div class="col-md-6">
+              <label for="previousOwner" class="form-label fw-semibold">Previous Owner (Seller) <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="previousOwner" name="previousOwner" placeholder="e.g. Ramesh Kumar" required>
+            </div>
+
+            <div class="col-md-6">
+              <label for="newOwner" class="form-label fw-semibold">New Owner (Buyer) <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="newOwner" name="newOwner" placeholder="e.g. Sunita Rao" required>
+            </div>
+
+            <div class="col-md-6">
+              <label for="transferDate" class="form-label fw-semibold">Transfer Date <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" id="transferDate" name="transferDate" value="2026-09-18" required>
+            </div>
+
+            <div class="col-md-6">
+              <label for="transferType" class="form-label fw-semibold">Transfer Type <span class="text-danger">*</span></label>
+              <select class="form-select" id="transferType" name="transferType" required>
+                <option value="Ownership Transfer" selected>Ownership Transfer</option>
+                <option value="Sale">Sale</option>
+                <option value="Gift">Gift</option>
+                <option value="Inheritance">Inheritance</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="alert alert-info mt-4 d-flex align-items-center" role="alert">
+            <i class="fa-solid fa-circle-info fa-lg me-3"></i>
+            <small>
+              <strong>Academic Demonstration Notice:</strong> Submitting this form gets the latest block's SHA-256 hash, stores it as <code>previous_hash</code>, bundles the land transfer parameters, and executes the SHA-256 hashing algorithm to mint a new block into memory.
+            </small>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mt-4">
+            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+              <i class="fa-solid fa-arrow-left me-1"></i> Cancel
+            </a>
+            <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold">
+              <i class="fa-solid fa-link me-1"></i> Record Land Transfer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,11 +1,14 @@
-<div align="center">
+# Blockchain-Based Land Transfer Tracking System Using Genesis Block
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+**Visvesvaraya Technological University (VTU) - BIC702**  
+**Activity Based Learning – Activity 2 (Activity No: 21)**  
+**Student Name:** Sanjai Shanmuga Prabu  
+**USN:** 1SP23IC047  
 
-  <h1>Built with AI Studio</h2>
+This repository contains the complete, working, presentation-ready academic mini-project for VTU BIC702.
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+It features:
+1. **Interactive Web Application (Port 3000):** Real cryptographic SHA-256 blockchain engine with live block cards, visual chain linkers, tamper simulation and restoration, search, and student report displays.
+2. **Standalone Python Flask Application (`/python-project`):** Standalone `blockchain.py`, `app.py`, `requirements.txt`, templates, and static files ready to be zipped, submitted, and run with `python3 app.py` on any local computer!
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
-
-</div>
+Please refer to `/python-project/README.md` for full installation, algorithm, test cases, and academic viva details.

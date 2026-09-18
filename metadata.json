@@ -1,0 +1,6 @@
+{
+  "name": "Land Transfer Tracking System - VTU BIC702",
+  "description": "Academic mini-project demonstrating a blockchain-based land transfer tracking system using Genesis Block, SHA-256 hashing, previous-hash linkage, and tamper detection for VTU BIC702.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

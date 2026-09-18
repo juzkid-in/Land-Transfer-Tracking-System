@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mb-4">
+  <div class="p-4 bg-white rounded-3 shadow-sm border border-secondary border-opacity-25">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <span class="badge bg-primary mb-2">VTU BIC702 – Activity Based Learning</span>
+        <h2 class="fw-bold text-dark mb-1">Blockchain-Based Land Transfer Tracking System</h2>
+        <p class="text-muted mb-2">Using Genesis Block & Cryptographic SHA-256 Hash Linkage</p>
+        <div class="d-flex flex-wrap gap-3 text-secondary small">
+          <div><i class="fa-solid fa-user me-1 text-primary"></i> <strong>Student:</strong> {{ student_name }}</div>
+          <div><i class="fa-solid fa-id-badge me-1 text-primary"></i> <strong>USN:</strong> {{ usn }}</div>
+          <div><i class="fa-solid fa-tag me-1 text-primary"></i> <strong>Activity:</strong> Activity 2 (No. 21)</div>
+        </div>
+      </div>
+      <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+        <a href="{{ url_for('add_transfer') }}" class="btn btn-primary px-3 py-2 fw-semibold me-2 shadow-sm">
+          <i class="fa-solid fa-plus me-1"></i> Add Transfer
+        </a>
+        <a href="{{ url_for('verify') }}" class="btn btn-outline-dark px-3 py-2 fw-semibold shadow-sm">
+          <i class="fa-solid fa-shield-halved me-1"></i> Verify Chain
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dashboard Statistics Cards -->
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="card h-100 shadow-sm border-0 border-top border-primary border-4 bg-white">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="text-muted small text-uppercase fw-bold">Total Blocks</div>
+            <h2 class="fw-bold text-dark my-1">{{ total_blocks }}</h2>
+            <small class="text-muted">Index 0 to {{ total_blocks - 1 }}</small>
+          </div>
+          <div class="p-3 bg-primary bg-opacity-10 text-primary rounded-circle">
+            <i class="fa-solid fa-cubes fa-2x"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card h-100 shadow-sm border-0 border-top border-info border-4 bg-white">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="text-muted small text-uppercase fw-bold">Land Transfers</div>
+            <h2 class="fw-bold text-dark my-1">{{ land_transfers }}</h2>
+            <small class="text-muted">Recorded Transactions</small>
+          </div>
+          <div class="p-3 bg-info bg-opacity-10 text-info rounded-circle">
+            <i class="fa-solid fa-file-contract fa-2x"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card h-100 shadow-sm border-0 border-top border-warning border-4 bg-white">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="text-muted small text-uppercase fw-bold">Genesis Block</div>
+            <h4 class="fw-bold text-success my-1">{{ genesis_status }}</h4>
+            <small class="text-muted">Block 0 Initialized (prev=0)</small>
+          </div>
+          <div class="p-3 bg-warning bg-opacity-10 text-warning rounded-circle">
+            <i class="fa-solid fa-dna fa-2x"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card h-100 shadow-sm border-0 border-top border-{{ 'success' if chain_status == 'VALID' else 'danger' }} border-4 bg-white">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="text-muted small text-uppercase fw-bold">Blockchain Status</div>
+            <h4 class="fw-bold text-{{ 'success' if chain_status == 'VALID' else 'danger' }} my-1">
+              {{ chain_status }}
+            </h4>
+            <small class="text-muted">{{ 'No tampering detected' if chain_status == 'VALID' else 'Tampering detected!' }}</small>
+          </div>
+          <div class="p-3 bg-{{ 'success' if chain_status == 'VALID' else 'danger' }} bg-opacity-10 text-{{ 'success' if chain_status == 'VALID' else 'danger' }} rounded-circle">
+            <i class="fa-solid {{ 'fa-circle-check' if chain_status == 'VALID' else 'fa-triangle-exclamation' }} fa-2x"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Working Summary & Architecture Preview -->
+<div class="row g-4 mb-4">
+  <div class="col-lg-6">
+    <div class="card shadow-sm border-0 h-100 bg-white">
+      <div class="card-header bg-white py-3 border-bottom">
+        <h5 class="fw-bold mb-0 text-dark"><i class="fa-solid fa-diagram-project me-2 text-primary"></i> Blockchain Chain Linkage</h5>
+      </div>
+      <div class="card-body">
+        <p class="text-secondary small">
+          Each land transfer transaction is encapsulated in a block and cryptographically bound to the previous block's SHA-256 hash.
+        </p>
+        <div class="bg-light p-3 rounded border font-monospace small text-center">
+          <span class="badge bg-dark px-3 py-2 d-block mb-2">[Block 0: GENESIS BLOCK] (prev_hash = "0")</span>
+          <div class="text-primary fw-bold my-1">↓ hash pointer</div>
+          <span class="badge bg-primary px-3 py-2 d-block mb-2">[Block 1: LAND TRANSFER 1] (prev_hash = Hash(Block 0))</span>
+          <div class="text-primary fw-bold my-1">↓ hash pointer</div>
+          <span class="badge bg-primary px-3 py-2 d-block mb-2">[Block 2: LAND TRANSFER 2] (prev_hash = Hash(Block 1))</span>
+          <div class="text-primary fw-bold my-1">↓ hash pointer</div>
+          <span class="badge bg-primary px-3 py-2 d-block">[Block 3: LAND TRANSFER 3] (prev_hash = Hash(Block 2))</span>
+        </div>
+        <div class="mt-3 text-center">
+          <a href="{{ url_for('view_blockchain') }}" class="btn btn-outline-primary btn-sm">
+            Inspect Full Block Cards & Hashes <i class="fa-solid fa-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card shadow-sm border-0 h-100 bg-white">
+      <div class="card-header bg-white py-3 border-bottom">
+        <h5 class="fw-bold mb-0 text-dark"><i class="fa-solid fa-bolt me-2 text-warning"></i> Quick Academic Actions</h5>
+      </div>
+      <div class="card-body d-flex flex-column justify-content-between">
+        <div class="list-group list-group-flush mb-3">
+          <a href="{{ url_for('add_transfer') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2">
+            <div>
+              <strong class="d-block text-dark">1. Add Land Transfer</strong>
+              <small class="text-muted">Submit land ID, survey number, buyer/seller to form new block</small>
+            </div>
+            <i class="fa-solid fa-chevron-right text-muted"></i>
+          </a>
+          <a href="{{ url_for('verify') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2">
+            <div>
+              <strong class="d-block text-dark">2. Verify Blockchain & Tamper Demo</strong>
+              <small class="text-muted">Recalculate cryptographic hashes & simulate record tampering</small>
+            </div>
+            <i class="fa-solid fa-chevron-right text-muted"></i>
+          </a>
+          <a href="{{ url_for('genesis') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2">
+            <div>
+              <strong class="d-block text-dark">3. Understanding Genesis Block</strong>
+              <small class="text-muted">Academic explanation of Block 0, previous hash = 0 & initialization</small>
+            </div>
+            <i class="fa-solid fa-chevron-right text-muted"></i>
+          </a>
+          <a href="{{ url_for('architecture') }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2">
+            <div>
+              <strong class="d-block text-dark">4. System Architecture & Working</strong>
+              <small class="text-muted">Visual pipeline: User → Data Entry → Hash → Block → Verification</small>
+            </div>
+            <i class="fa-solid fa-chevron-right text-muted"></i>
+          </a>
+        </div>
+        <form action="{{ url_for('load_samples') }}" method="POST" class="d-grid">
+          <button type="submit" class="btn btn-secondary">
+            <i class="fa-solid fa-rotate-left me-1"></i> Reset to Standard 3-Record Sample Data
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

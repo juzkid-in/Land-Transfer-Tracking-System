@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card shadow-sm border-0 bg-white mb-4">
+  <div class="card-body p-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+      <div>
+        <h4 class="fw-bold text-dark mb-1"><i class="fa-solid fa-clock-rotate-left me-2 text-primary"></i> Land Transfer History</h4>
+        <p class="text-muted mb-0">Tabular ledger of all recorded land transfers with ownership transitions</p>
+      </div>
+
+      <!-- Search Box -->
+      <form action="{{ url_for('history') }}" method="GET" class="d-flex gap-2">
+        <input type="text" name="q" value="{{ query or '' }}" class="form-control" placeholder="Search Land ID / Survey No." style="min-width: 260px;">
+        <button type="submit" class="btn btn-primary px-3">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        {% if query %}
+          <a href="{{ url_for('history') }}" class="btn btn-outline-secondary">Clear</a>
+        {% endif %}
+      </form>
+    </div>
+
+    {% if query %}
+      <div class="alert alert-secondary py-2 small mb-3">
+        Showing search results for: <strong>"{{ query }}"</strong> ({{ blocks|length }} records found)
+      </div>
+    {% endif %}
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle border">
+        <thead class="table-dark">
+          <tr>
+            <th>Block No.</th>
+            <th>Land ID</th>
+            <th>Survey Number</th>
+            <th>Location</th>
+            <th>Previous Owner</th>
+            <th>New Owner</th>
+            <th>Transfer Date</th>
+            <th>Transfer Type</th>
+            <th>Current Hash</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if blocks %}
+            {% for block in blocks %}
+              <tr>
+                <td><span class="badge bg-primary font-monospace">Block #{{ block.index }}</span></td>
+                <td><strong class="font-monospace text-primary">{{ block.data.landId }}</strong></td>
+                <td><span class="font-monospace">{{ block.data.surveyNumber }}</span></td>
+                <td>{{ block.data.location }}</td>
+                <td><span class="text-danger fw-semibold">{{ block.data.previousOwner }}</span></td>
+                <td><span class="text-success fw-semibold">{{ block.data.newOwner }}</span></td>
+                <td><small>{{ block.data.transferDate }}</small></td>
+                <td><span class="badge bg-secondary">{{ block.data.transferType }}</span></td>
+                <td>
+                  <span class="font-monospace text-muted small text-truncate d-inline-block" style="max-width: 140px;" title="{{ block.hash }}">
+                    {{ block.hash[:12] }}...{{ block.hash[-8:] }}
+                  </span>
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="9" class="text-center py-4 text-muted">
+                <i class="fa-solid fa-folder-open fa-2x d-block mb-2 text-secondary"></i>
+                No matching land transfer records found in the blockchain.
+              </td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

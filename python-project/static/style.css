@@ -1,0 +1,22 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333333;
+}
+
+.card {
+  border-radius: 8px;
+}
+
+code {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.table th {
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.table td {
+  font-size: 0.875rem;
+}

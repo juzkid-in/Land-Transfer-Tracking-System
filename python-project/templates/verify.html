@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="card shadow-sm border-0 bg-white">
+      <div class="card-header bg-white py-3 border-bottom d-flex justify-content-between align-items-center">
+        <h5 class="fw-bold mb-0 text-dark">
+          <i class="fa-solid fa-shield-halved me-2 text-primary"></i> Cryptographic Chain Verification
+        </h5>
+        <a href="{{ url_for('verify') }}" class="btn btn-primary btn-sm">
+          <i class="fa-solid fa-arrows-rotate me-1"></i> Verify Blockchain
+        </a>
+      </div>
+      <div class="card-body p-4">
+        <!-- Status Indicator Alert -->
+        <div class="alert alert-{{ 'success' if validation.is_valid else 'danger' }} d-flex align-items-start shadow-sm mb-4">
+          <i class="fa-solid {{ 'fa-circle-check' if validation.is_valid else 'fa-triangle-exclamation' }} fa-2x me-3 mt-1"></i>
+          <div>
+            <h5 class="fw-bold mb-1">
+              Blockchain Status: {{ 'VALID' if validation.is_valid else 'INVALID' }}
+            </h5>
+            <p class="mb-0 small">{{ validation.message }}</p>
+          </div>
+        </div>
+
+        <!-- Verification Checklist Metrics -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded border">
+              <span class="text-muted small d-block">Genesis Block (Block 0):</span>
+              <strong class="text-success fs-6"><i class="fa-solid fa-check-circle me-1"></i> PRESENT (Index 0, Prev = 0)</strong>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded border">
+              <span class="text-muted small d-block">Total Chain Blocks:</span>
+              <strong class="text-dark fs-6">{{ total_blocks }} Blocks Verified</strong>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded border">
+              <span class="text-muted small d-block">Hash Linkages (prev_hash):</span>
+              <strong class="text-{{ 'success' if validation.is_valid else 'danger' }} fs-6">
+                <i class="fa-solid {{ 'fa-check-circle' if validation.is_valid else 'fa-xmark-circle' }} me-1"></i>
+                {{ 'VALID' if validation.is_valid else 'BROKEN' }}
+              </strong>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded border">
+              <span class="text-muted small d-block">Block Data Integrity:</span>
+              <strong class="text-{{ 'success' if validation.is_valid else 'danger' }} fs-6">
+                <i class="fa-solid {{ 'fa-check-circle' if validation.is_valid else 'fa-xmark-circle' }} me-1"></i>
+                {{ 'VALID' if validation.is_valid else 'TAMPER DETECTED' }}
+              </strong>
+            </div>
+          </div>
+        </div>
+
+        <h6 class="fw-bold text-dark mb-2">Block-by-Block Verification Audit</h6>
+        <div class="list-group">
+          {% for block in chain %}
+            <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+              <div>
+                <span class="badge {{ 'bg-warning text-dark' if block.is_genesis else 'bg-primary' }} me-2">Block #{{ block.index }}</span>
+                <span class="fw-semibold text-dark">{{ 'GENESIS BLOCK' if block.is_genesis else block.data.landId ~ ' (' ~ block.data.newOwner ~ ')' }}</span>
+              </div>
+              <div>
+                {% if validation.broken_block_index is not none and block.index >= validation.broken_block_index %}
+                  <span class="badge bg-danger">Tampered / Broken Link</span>
+                {% else %}
+                  <span class="badge bg-success"><i class="fa-solid fa-check me-1"></i> Intact</span>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tamper Detection Demonstration Column -->
+  <div class="col-lg-5">
+    <div class="card shadow-sm border-0 bg-white border-top border-danger border-4">
+      <div class="card-header bg-white py-3">
+        <h5 class="fw-bold text-danger mb-0">
+          <i class="fa-solid fa-bug me-2"></i> Tamper Detection Demo
+        </h5>
+        <small class="text-muted">Simulate malicious database modification to demonstrate blockchain immutability</small>
+      </div>
+      <div class="card-body">
+        <p class="text-secondary small">
+          In a centralized database, a corrupt actor could secretly change a land parcel's owner without detection. In a blockchain, changing any historical property value causes its SHA-256 hash to mismatch, immediately invalidating the chain!
+        </p>
+
+        <form action="{{ url_for('tamper') }}" method="POST" class="p-3 bg-light rounded border mb-3">
+          <h6 class="fw-bold text-dark small mb-2"><i class="fa-solid fa-user-pen me-1 text-danger"></i> Step 1: Simulate Tampering</h6>
+          <div class="mb-2">
+            <label class="form-label small fw-semibold">Target Block to Tamper:</label>
+            <select name="blockIndex" class="form-select form-select-sm">
+              {% for b in chain %}
+                {% if not b.is_genesis %}
+                  <option value="{{ b.index }}">Block {{ b.index }} ({{ b.data.landId }} - {{ b.data.newOwner }})</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label small fw-semibold">Malicious New Owner Value:</label>
+            <input type="text" name="newOwner" class="form-control form-control-sm" value="Unauthorized Imposter / Hacker" required>
+          </div>
+          <button type="submit" class="btn btn-danger btn-sm w-100 fw-semibold">
+            <i class="fa-solid fa-triangle-exclamation me-1"></i> Tamper Land Record
+          </button>
+        </form>
+
+        <form action="{{ url_for('restore') }}" method="POST" class="p-3 bg-light rounded border">
+          <h6 class="fw-bold text-dark small mb-2"><i class="fa-solid fa-rotate-left me-1 text-success"></i> Step 2: Restore Authenticity</h6>
+          <input type="hidden" name="blockIndex" value="1">
+          <p class="small text-muted mb-2">Restores original genuine block data snapshot and re-verifies the chain.</p>
+          <button type="submit" class="btn btn-success btn-sm w-100 fw-semibold">
+            <i class="fa-solid fa-shield me-1"></i> Restore Original Data
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card shadow-sm border-0 bg-white mb-4">
+  <div class="card-header bg-white py-3 border-bottom">
+    <h4 class="fw-bold mb-1 text-dark"><i class="fa-solid fa-sitemap me-2 text-primary"></i> System Architecture & Working</h4>
+    <small class="text-muted">VTU BIC702 End-to-End Execution Flow</small>
+  </div>
+  <div class="card-body p-4">
+    <!-- Visual Architecture Diagram -->
+    <div class="architecture-diagram bg-light p-4 rounded-3 border mb-4 text-center">
+      <h5 class="fw-bold text-dark mb-4">End-to-End Architectural Pipeline</h5>
+      
+      <div class="row g-3 justify-content-center text-center">
+        <div class="col-md-3 col-sm-6">
+          <div class="p-3 bg-white border rounded shadow-sm h-100">
+            <div class="badge bg-secondary mb-2">Stage 1</div>
+            <div class="fw-bold text-dark">USER / LAND ADMIN</div>
+            <small class="text-muted d-block">Sub-Registrar / Land Officer</small>
+          </div>
+        </div>
+        <div class="col-12 d-md-none text-primary"><i class="fa-solid fa-arrow-down"></i></div>
+
+        <div class="col-md-3 col-sm-6">
+          <div class="p-3 bg-white border rounded shadow-sm h-100">
+            <div class="badge bg-primary mb-2">Stage 2</div>
+            <div class="fw-bold text-dark">DATA ENTRY</div>
+            <small class="text-muted d-block">Land ID, Survey No, Owners</small>
+          </div>
+        </div>
+        <div class="col-12 d-md-none text-primary"><i class="fa-solid fa-arrow-down"></i></div>
+
+        <div class="col-md-3 col-sm-6">
+          <div class="p-3 bg-white border rounded shadow-sm h-100">
+            <div class="badge bg-primary mb-2">Stage 3</div>
+            <div class="fw-bold text-dark">TRANSACTION CREATION</div>
+            <small class="text-muted d-block">Payload bundling & validation</small>
+          </div>
+        </div>
+        <div class="col-12 d-md-none text-primary"><i class="fa-solid fa-arrow-down"></i></div>
+
+        <div class="col-md-3 col-sm-6">
+          <div class="p-3 bg-white border rounded shadow-sm h-100">
+            <div class="badge bg-info text-dark mb-2">Stage 4</div>
+            <div class="fw-bold text-dark">NEW BLOCK FORMATION</div>
+            <small class="text-muted d-block">Assign Index = N</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="my-3 text-primary fs-3">
+        <i class="fa-solid fa-arrow-down"></i>
+      </div>
+
+      <div class="row g-3 justify-content-center text-center">
+        <div class="col-md-3 col-sm-6">
+          <div class="p-3 bg-white border rounded shadow-sm h-100">
+            <div class="badge bg-warning text-dark mb-2">Stage 5</div>
+            <div class="fw-bold text-dark">PREVIOUS HASH LINK</div>
+            <small class="text-muted d-block">Fetch Block (N-1).hash</small>
+          </div>
+        </div>
+        <div class="col-12 d-md-none text-primary"><i class="fa-solid fa-arrow-down"></i></div>
+
+        <div class="col-md-3 col-sm-6">
+          <div class="p-3 bg-white border rounded shadow-sm h-100">
+            <div class="badge bg-danger mb-2">Stage 6</div>
+            <div class="fw-bold text-dark">SHA-256 HASHING</div>
+            <small class="text-muted d-block">Hash(Index+Time+Data+Prev)</small>
+          </div>
+        </div>
+        <div class="col-12 d-md-none text-primary"><i class="fa-solid fa-arrow-down"></i></div>
+
+        <div class="col-md-3 col-sm-6">
+          <div class="p-3 bg-white border rounded shadow-sm h-100">
+            <div class="badge bg-dark mb-2">Stage 7</div>
+            <div class="fw-bold text-dark">BLOCKCHAIN STORAGE</div>
+            <small class="text-muted d-block">Appended to ledger list</small>
+          </div>
+        </div>
+        <div class="col-12 d-md-none text-primary"><i class="fa-solid fa-arrow-down"></i></div>
+
+        <div class="col-md-3 col-sm-6">
+          <div class="p-3 bg-white border rounded shadow-sm h-100">
+            <div class="badge bg-success mb-2">Stage 8</div>
+            <div class="fw-bold text-dark">VALIDATION & VERIFY</div>
+            <small class="text-muted d-block">Continuous tamper detection</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Working of the System - 12 Steps -->
+    <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-list-ol me-2 text-primary"></i> Working of the System (12 Academic Steps)</h5>
+    <div class="row g-2 small">
+      <div class="col-md-6">
+        <div class="p-2 border rounded mb-2">
+          <strong>Step 1:</strong> System initializes by constructing the Genesis Block (Block 0).
+        </div>
+        <div class="p-2 border rounded mb-2">
+          <strong>Step 2:</strong> Genesis Block previous hash is mathematically set to "0".
+        </div>
+        <div class="p-2 border rounded mb-2">
+          <strong>Step 3:</strong> Administrator inputs land parcel details (Land ID, survey no, owners).
+        </div>
+        <div class="p-2 border rounded mb-2">
+          <strong>Step 4:</strong> The application packages input parameters into a transaction object.
+        </div>
+        <div class="p-2 border rounded mb-2">
+          <strong>Step 5:</strong> Transaction payload is placed into a new block candidate with index N.
+        </div>
+        <div class="p-2 border rounded mb-2">
+          <strong>Step 6:</strong> Block queries the latest block in memory and captures its SHA-256 hash.
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-2 border rounded mb-2">
+          <strong>Step 7:</strong> SHA-256 cryptographic function computes the unique block hash.
+        </div>
+        <div class="p-2 border rounded mb-2">
+          <strong>Step 8:</strong> Newly forged block is appended onto the blockchain list.
+        </div>
+        <div class="p-2 border rounded mb-2">
+          <strong>Step 9:</strong> Subsequent land transfers create blocks linked in an unbroken chain.
+        </div>
+        <div class="p-2 border rounded mb-2">
+          <strong>Step 10:</strong> Verification engine scans each block and recalculates hashes.
+        </div>
+        <div class="p-2 border rounded mb-2">
+          <strong>Step 11:</strong> If all recalculated hashes match, status is confirmed <strong>VALID</strong>.
+        </div>
+        <div class="p-2 border rounded mb-2">
+          <strong>Step 12:</strong> If any stored field is tampered with, validation flags <strong>INVALID</strong>.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

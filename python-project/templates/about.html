@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card shadow-sm border-0 bg-white mb-4">
+  <div class="card-header bg-primary text-white py-3">
+    <h4 class="fw-bold mb-0"><i class="fa-solid fa-graduation-cap me-2"></i> About Project & Academic Report</h4>
+    <small class="text-white-50">VTU BIC702 - Blockchain Technology (Activity Based Learning)</small>
+  </div>
+  <div class="card-body p-4">
+    <!-- Student & Course Meta -->
+    <div class="row g-3 mb-4 p-3 bg-light rounded border">
+      <div class="col-md-6">
+        <p class="mb-1 text-muted small text-uppercase fw-bold">Project Title:</p>
+        <h5 class="fw-bold text-dark">Blockchain-Based Land Transfer Tracking System Using Genesis Block</h5>
+        <p class="mb-1 text-muted small text-uppercase fw-bold mt-3">Course / Subject:</p>
+        <div><strong>Blockchain Technology (BIC702)</strong> - 7th Semester</div>
+        <div>Activity Based Learning – Activity 2 (Activity No: 21)</div>
+      </div>
+      <div class="col-md-6 border-start-md">
+        <p class="mb-1 text-muted small text-uppercase fw-bold">Student Details:</p>
+        <div><strong>Name:</strong> Sanjai Shanmuga Prabu</div>
+        <div><strong>USN:</strong> 1SP23IC047</div>
+        <div class="mt-2"><span class="badge bg-secondary">Academic Prototype</span> <span class="badge bg-info text-dark">Fictional Demo Data</span></div>
+      </div>
+    </div>
+
+    <!-- 1. Problem Statement -->
+    <section class="mb-4">
+      <h5 class="fw-bold text-dark border-bottom pb-2">1. Problem Statement</h5>
+      <p class="text-secondary">
+        Traditional paper-based and centralized land registry systems frequently suffer from issues of integrity, data vulnerability, unauthorized alteration of property ownership records, and lack of transparent historical audit trails. In centralized database architectures, an administrator or unauthorized entity can modify ownership records without leaving a detectable cryptographic imprint. There is a need for an immutable, verifiable, and transparent record-keeping mechanism that ensures every transfer is chronologically bound, verifiable, and tamper-evident.
+      </p>
+      <div class="alert alert-secondary small mb-0 py-2">
+        <em>Disclaimer:</em> This academic application is designed to demonstrate blockchain data structure principles and does not grant legal title or replace statutory government land registries.
+      </div>
+    </section>
+
+    <!-- 2. Proposed Solution -->
+    <section class="mb-4">
+      <h5 class="fw-bold text-dark border-bottom pb-2">2. Proposed Solution</h5>
+      <p class="text-secondary">
+        The proposed solution implements a Python-based blockchain from scratch that begins with a well-defined Genesis Block (Block 0) with a hardcoded previous hash of <code>"0"</code>. Subsequent land ownership transfers are packaged into discrete blocks, hashed using standard SHA-256 cryptography, and linked sequentially using the previous block's hash. A verification algorithm continuously audits the integrity of the chain and instantly flags any unauthorized modifications.
+      </p>
+    </section>
+
+    <!-- 3. Objectives -->
+    <section class="mb-4">
+      <h5 class="fw-bold text-dark border-bottom pb-2">3. Objectives</h5>
+      <ol class="text-secondary small">
+        <li>To construct a Genesis Block (Block 0) as the foundation of the chain.</li>
+        <li>To implement cryptographic SHA-256 hashing using standard hash primitives.</li>
+        <li>To record land transfer transactions (Land ID, survey number, seller, buyer) into discrete blocks.</li>
+        <li>To establish strict cryptographic linkage using previous hash pointers.</li>
+        <li>To implement a verification function that audits the entire blockchain integrity.</li>
+        <li>To demonstrate tamper detection by simulating unauthorized data alteration.</li>
+        <li>To deliver a clean, intuitive web interface suitable for academic presentation and viva examination.</li>
+      </ol>
+    </section>
+
+    <!-- 4. Algorithm -->
+    <section class="mb-4">
+      <h5 class="fw-bold text-dark border-bottom pb-2">4. Algorithm</h5>
+      <div class="p-3 bg-light rounded border font-monospace small text-secondary">
+        1. Start.<br>
+        2. Create Genesis Block.<br>
+        3. Set Genesis Block previous hash to "0".<br>
+        4. Calculate Genesis Block SHA-256 hash.<br>
+        5. Accept land transfer details (Land ID, survey number, location, previous owner, new owner, date, type).<br>
+        6. Create a new land transfer block.<br>
+        7. Obtain the previous block hash.<br>
+        8. Store the previous hash in the new block.<br>
+        9. Calculate the new block SHA-256 hash.<br>
+        10. Add the block to the blockchain list.<br>
+        11. Repeat for additional transfers.<br>
+        12. Validate the blockchain.<br>
+        13. Compare each block's hash with its recalculated hash.<br>
+        14. Compare each block's previous hash with the previous block's hash.<br>
+        15. Display VALID if all checks pass.<br>
+        16. Display INVALID if any check fails.<br>
+        17. Stop.
+      </div>
+    </section>
+
+    <!-- 5. Testing Table -->
+    <section class="mb-4">
+      <h5 class="fw-bold text-dark border-bottom pb-2">5. Test Cases & Experimental Results</h5>
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm align-middle small">
+          <thead class="table-dark">
+            <tr>
+              <th>Test Case ID</th>
+              <th>Description</th>
+              <th>Input / Action</th>
+              <th>Expected Outcome</th>
+              <th>Observed Result</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>TC-01</td>
+              <td>Genesis Block creation</td>
+              <td>Initialize blockchain instance</td>
+              <td>Genesis Block created with previous hash = "0"</td>
+              <td>Block 0 created with prev_hash = "0" and valid SHA-256</td>
+              <td><span class="badge bg-success">Pass</span></td>
+            </tr>
+            <tr>
+              <td>TC-02</td>
+              <td>Add first land transfer</td>
+              <td>Enter LAND001 parcel data</td>
+              <td>New Block 1 created and linked to Block 0</td>
+              <td>Block 1 created; prev_hash matches Block 0 hash</td>
+              <td><span class="badge bg-success">Pass</span></td>
+            </tr>
+            <tr>
+              <td>TC-03</td>
+              <td>Add second land transfer</td>
+              <td>Enter LAND002 parcel data</td>
+              <td>Block 2 linked to Block 1</td>
+              <td>Block 2 created; prev_hash matches Block 1 hash</td>
+              <td><span class="badge bg-success">Pass</span></td>
+            </tr>
+            <tr>
+              <td>TC-04</td>
+              <td>Add third land transfer</td>
+              <td>Enter LAND003 parcel data</td>
+              <td>Block 3 linked to Block 2</td>
+              <td>Block 3 created; prev_hash matches Block 2 hash</td>
+              <td><span class="badge bg-success">Pass</span></td>
+            </tr>
+            <tr>
+              <td>TC-05</td>
+              <td>Verify blockchain</td>
+              <td>Trigger validation function</td>
+              <td>Blockchain Status: VALID</td>
+              <td>All recalculations match; Status confirmed VALID</td>
+              <td><span class="badge bg-success">Pass</span></td>
+            </tr>
+            <tr>
+              <td>TC-06</td>
+              <td>Tamper detection test</td>
+              <td>Simulate changing New Owner in Block 1</td>
+              <td>Blockchain Status: INVALID; Tampering detected</td>
+              <td>Hash mismatch detected at Block 1; Status INVALID</td>
+              <td><span class="badge bg-success">Pass</span></td>
+            </tr>
+            <tr>
+              <td>TC-07</td>
+              <td>Restore original data</td>
+              <td>Trigger Restore Original Data action</td>
+              <td>Blockchain Status: VALID</td>
+              <td>Original record snapshot restored; Status VALID</td>
+              <td><span class="badge bg-success">Pass</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 6. Result & Conclusions -->
+    <div class="row g-4 mb-4">
+      <div class="col-md-6">
+        <div class="p-3 border rounded h-100 bg-white">
+          <h6 class="fw-bold text-success"><i class="fa-solid fa-square-check me-2"></i> Result</h6>
+          <p class="text-secondary small mb-0">
+            The implemented system successfully demonstrates Genesis Block generation, land transfer transaction recording, real SHA-256 cryptographic hashing, sequential previous-hash linkage, blockchain formation, mathematical validation, and instant tamper detection.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 border rounded h-100 bg-white">
+          <h6 class="fw-bold text-primary"><i class="fa-solid fa-thumbs-up me-2"></i> Key Advantages</h6>
+          <ul class="text-secondary small mb-0 ps-3">
+            <li>Tamper-evident linked list structure</li>
+            <li>Complete transparent historical traceability</li>
+            <li>Cryptographic SHA-256 integrity assurance</li>
+            <li>Direct verification without proprietary tools</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Limitations & Future Scope -->
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="p-3 border rounded h-100 bg-white">
+          <h6 class="fw-bold text-danger"><i class="fa-solid fa-triangle-exclamation me-2"></i> Limitations</h6>
+          <ul class="text-secondary small mb-0 ps-3">
+            <li>Academic demonstration using in-memory state.</li>
+            <li>Not integrated with statutory government registries.</li>
+            <li>Does not establish legal real-world land title.</li>
+            <li>Single-node prototype without distributed P2P consensus.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-3 border rounded h-100 bg-white">
+          <h6 class="fw-bold text-info"><i class="fa-solid fa-rocket me-2"></i> Future Scope</h6>
+          <ul class="text-secondary small mb-0 ps-3">
+            <li>Transition to permissioned distributed networks (Hyperledger Fabric).</li>
+            <li>Digital signatures using asymmetric public-private key pairs (ECDSA).</li>
+            <li>Smart contracts for automated escrow and tax clearance.</li>
+            <li>Integration with government GIS land survey databases.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
